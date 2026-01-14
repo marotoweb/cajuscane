@@ -76,13 +76,26 @@ jobs:
           ndk-version: r29
           # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
           add-to-path: true
-          # 
           link-to-sdk: true
+
+      - name: Debug print ANDROID_NDK_HOME
+        run: echo $ANDROID_NDK_HOME
+      
+      - name: Cache (NDK)
+        uses: actions/cache@v2
+        with:
+          path: ${ANDROID_HOME}/ndk/29.0.14206865
+          key: ndk-cache  
+
+      - name: Install NDK
+        run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install 'ndk;29.0.14206865'
 
       # 6.2 Compilar o APK de Release
       # O comando principal que compila a aplicação em modo de produção.
       - name: Build APK
         run: flutter build apk --release
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       # 7. Renomear o APK (Opcional, mas recomendado)
       # Renomeia o `app-release.apk` para um nome mais descritivo, incluindo a versão da tag.
