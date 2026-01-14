@@ -71,16 +71,14 @@ jobs:
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
 
-      
-      # 6.2 Configurar o NDK do Android
-      - name: Setup Android NDK r28
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Download and Setup the Android NDK
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r28.2.13676358
-          # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
-          add-to-path: true
-          link-to-sdk: true
+          ndk-version: r28
+          add-to-path: false
 
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
