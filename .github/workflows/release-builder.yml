@@ -73,7 +73,7 @@ jobs:
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r29
+          ndk-version: 29.0.14206865
           # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
           add-to-path: true
           link-to-sdk: true
