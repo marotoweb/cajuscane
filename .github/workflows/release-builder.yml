@@ -67,6 +67,17 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=../../upload-keystore.jks" >> android/key.properties
+      
+      # 6.2 Configurar o NDK do Android
+      - name: Setup Android NDK r29
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r29
+          # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
+          add-to-path: true
+          # 
+          link-to-sdk: true
 
       # 6.2 Compilar o APK de Release
       # O comando principal que compila a aplicação em modo de produção.
