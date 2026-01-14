@@ -79,6 +79,9 @@ jobs:
         with:
           ndk-version: r28
           add-to-path: false
+      - name: Verify NDK setup
+        run: ${{ steps.setup-ndk.outputs.ndk-path }}/ndk-build --version
+
 
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
