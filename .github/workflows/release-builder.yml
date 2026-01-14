@@ -67,8 +67,7 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=../../upload-keystore.jks" >> android/key.properties
-      
-      # 6.1 Debug print ANDROID_NDK_HOME
+
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
 
