@@ -73,11 +73,11 @@ jobs:
 
       
       # 6.2 Configurar o NDK do Android
-      - name: Setup Android NDK r29
+      - name: Setup Android NDK r28
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r29c
+          ndk-version: r28.2.13676358
           # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
           add-to-path: true
           link-to-sdk: true
