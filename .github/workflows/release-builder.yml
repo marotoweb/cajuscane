@@ -67,6 +67,10 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=../../upload-keystore.jks" >> android/key.properties
+
+      - name: Debug print ANDROID_NDK_HOME
+        run: echo $ANDROID_NDK_HOME
+
       
       # 6.2 Configurar o NDK do Android
       - name: Setup Android NDK r29
@@ -77,8 +81,6 @@ jobs:
           # Adiciona o NDK ao PATH do sistema e cria um link simbólico para o SDK do Android.
           add-to-path: true
           link-to-sdk: true
-          # Habilita o cache para acelerar builds futuros.
-          local-cache: true
 
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
