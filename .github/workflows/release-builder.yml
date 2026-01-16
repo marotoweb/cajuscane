@@ -71,14 +71,14 @@ jobs:
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
 
-      - name: Checkout the repository
-        uses: actions/checkout@v3
+      # 6.2 Configurar o Android NDK
       - name: Download and Setup the Android NDK
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r28
+          ndk-version: r28.2.13676358
           add-to-path: false
+          link-to-sdk: true
       - name: Verify NDK setup
         run: ${{ steps.setup-ndk.outputs.ndk-path }}/ndk-build --version
       
