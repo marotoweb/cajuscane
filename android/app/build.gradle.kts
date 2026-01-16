@@ -13,9 +13,9 @@ android {
     // compileSdk = flutter.compileSdkVersion
     // ndkVersion = flutter.ndkVersion
     // Define sdk and ndk version for reprodutible build
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "36.0.0-rc1"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -33,7 +33,7 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         //targetSdk = flutter.targetSdkVersion
-        targetSdkVersion = 35
+        targetSdkVersion = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

@@ -87,9 +87,9 @@ jobs:
         run: $ANDROID_NDK_HOME/ndk-build --version
 
       # 6.2.3 Instalar outras dependências do SDK Android
-      - name: Install Android SDK Build-Tools 35
+      - name: Install Android SDK Build-Tools 36
         run: |
-          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;35.0.0"
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0"
       
       # 6.2.4 Compilar o APK de Release
       - name: Build APK
