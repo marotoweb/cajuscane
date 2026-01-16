@@ -10,7 +10,10 @@ import java.io.FileInputStream
 
 android {
     namespace = "com.marotoweb.cajuscan_app"
-    compileSdk = flutter.compileSdkVersion
+    // compileSdk = flutter.compileSdkVersion
+    // ndkVersion = flutter.ndkVersion
+    // Define sdk and ndk version for reprodutible build
+    compileSdk = 36
     ndkVersion = "28.2.13676358"
 
     compileOptions {
