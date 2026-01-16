@@ -85,6 +85,11 @@ jobs:
 
       - name: Verify NDK setup
         run: $ANDROID_NDK_HOME/ndk-build --version
+
+      
+      - name: Install Android SDK Build-Tools 35
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;35.0.0"
       
       # 6.2.4 Compilar o APK de Release
       - name: Build APK

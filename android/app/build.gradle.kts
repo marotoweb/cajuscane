@@ -13,7 +13,7 @@ android {
     // compileSdk = flutter.compileSdkVersion
     // ndkVersion = flutter.ndkVersion
     // Define sdk and ndk version for reprodutible build
-    compileSdk = 36
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
