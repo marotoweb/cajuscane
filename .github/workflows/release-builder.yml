@@ -68,10 +68,10 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=../../upload-keystore.jks" >> android/key.properties
       
-      - name: Debug print ANDROID_NDK_HOME
+      - name: Debug print ANDROID_NDK_HOM
         run: echo $ANDROID_NDK_HOME
 
-      # 6.2.1 Instalar a versão EXATA exigida pelo projeto
+      # 6.2.1 Instalar a versão exigida pelo projeto
       - name: Install Android NDK 27.0.12077973
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;27.0.12077973"
