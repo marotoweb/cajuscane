@@ -91,6 +91,11 @@ jobs:
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0"
       
+      - name: Aceitar licenças do SDK Android
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0-rc1"
+
       # 6.2.4 Compilar o APK de Release
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
