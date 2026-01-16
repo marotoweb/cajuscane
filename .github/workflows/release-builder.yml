@@ -76,7 +76,7 @@ jobs:
         uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
-          ndk-version: r28.2.13676358
+          ndk-version: r28b
           add-to-path: false
           link-to-sdk: true
       - name: Verify NDK setup
