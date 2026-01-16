@@ -75,13 +75,12 @@ jobs:
       - name: Install Android NDK 28.2.13676358
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.2.13676358"
-          # Criar o link para o Gradle encontrar automaticamente
-          ln -s $ANDROID_HOME/ndk/28.2.13676358 $ANDROID_HOME/ndk-bundle
-          
-      - name: Set NDK Path for Flutter
-        id: setup-ndk
+
+      - name: Configure local.properties
         run: |
-          echo "ndk-path=$ANDROID_HOME/ndk/28.2.13676358" >> $GITHUB_OUTPUT
+          # Não vamos usar links simbólicos, vamos dar o caminho direto e absoluto
+          echo "ndk.dir=$ANDROID_HOME/ndk/28.2.13676358" > android/local.properties
+          # Definir a variável de ambiente para o Flutter
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358" >> $GITHUB_ENV
 
       - name: Verify NDK setup
@@ -95,7 +94,7 @@ jobs:
       # 6.2 Compilar o APK de Release
       # O comando principal que compila a aplicação em modo de produção.
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
         # Define a variável de ambiente ANDROID_NDK_HOME para garantir que o NDK é encontrado durante a compilação.
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
