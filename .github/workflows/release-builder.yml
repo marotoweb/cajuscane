@@ -80,15 +80,18 @@ jobs:
           add-to-path: false
           link-to-sdk: true
       - name: Verify NDK setup
+        # Verifica se o NDK foi configurado corretamente imprimindo a versão.
         run: ${{ steps.setup-ndk.outputs.ndk-path }}/ndk-build --version
       
       - name: Debug print ANDROID_NDK_HOME
+        # Verifica o valor da variável de ambiente ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
 
       # 6.2 Compilar o APK de Release
       # O comando principal que compila a aplicação em modo de produção.
       - name: Build APK
         run: flutter build apk --release
+        # Define a variável de ambiente ANDROID_NDK_HOME para garantir que o NDK é encontrado durante a compilação.
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
