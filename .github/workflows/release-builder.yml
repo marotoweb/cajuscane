@@ -71,17 +71,17 @@ jobs:
       - name: Debug print ANDROID_NDK_HOME
         run: echo $ANDROID_NDK_HOME
 
-      # 6.2 Configurar o NDK do Android (Método Direto via SDKManager)
+      # 6.2.1 Configurar o NDK do Android (Método Direto via SDKManager)
       - name: Install Android NDK 28.2.13676358
         run: |
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.2.13676358"
 
+      # 6.2.2 Configuração do local.properties (Crucial para o Gradle)
       - name: Configure local.properties
         run: |
-          # Não vamos usar links simbólicos, vamos dar o caminho direto e absoluto
-          echo "ndk.dir=$ANDROID_HOME/ndk/28.2.13676358" > android/local.properties
-          # Definir a variável de ambiente para o Flutter
-          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/28.2.13676358" >> $GITHUB_ENV
+          NDK_PATH="$ANDROID_HOME/ndk/28.2.13676358"
+          echo "ndk.dir=$NDK_PATH" > android/local.properties
+          echo "ANDROID_NDK_HOME=$NDK_PATH" >> $GITHUB_ENV
 
       - name: Verify NDK setup
         # Verifica se o NDK foi configurado corretamente imprimindo a versão.
