@@ -93,10 +93,8 @@ jobs:
       
       - name: Aceitar licenças do SDK Android                                                                                                                       
         run: |
-          # Localiza o sdkmanager dentro do ANDROID_HOME
           SDKMANAGER=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
           
-          # Se o 'latest' não existir, tenta o caminho antigo
           if [ ! -f "$SDKMANAGER" ]; then
             SDKMANAGER=$ANDROID_HOME/tools/bin/sdkmanager
           fi
