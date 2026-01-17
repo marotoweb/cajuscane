@@ -105,7 +105,7 @@ jobs:
           yes | $SDKMANAGER --licenses || true
           $SDKMANAGER "build-tools;36.0.0-rc1" "platforms;android-36"
 
-      # 6.2.4 Inspecionar o Ambiente de Build (Android)
+      # 6.2.4 Inspecionar o Ambiente de Build
       - name: Inspect Build Environment
         working-directory: android
         run: |
