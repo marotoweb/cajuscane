@@ -46,10 +46,22 @@ jobs:
           channel: 'stable'
           cache: false # Desactiva o cache para acelerar builds futuros.
 
+      # 3.1 Verificar a Instalação do Flutter
+      - name: Flutter doctor -v
+        run: flutter doctor -v
+
       # 4. Instalar Dependências do Projeto
       # Executa `flutter pub get` para baixar todos os pacotes listados no pubspec.yaml.
       - name: Install dependencies
         run: flutter pub get
+      
+      # 4.1 Remover build-id para garantir que os binários JNI sejam idênticos ao F-Droid
+      - name: Remove build-id from JNI (Reproducible Build)
+        run: |
+          # Usamos o caminho padrão do runner caso o output da action não esteja definido
+          CACHE_PATH="/home/runner/.pub-cache"
+          echo "Aplicando patch em: $CACHE_PATH"
+          find $CACHE_PATH -name "CMakeLists.txt" -path "*/jni-*/*" -exec sed -i -e 's/-Wl,/-Wl,--build-id=none,/' {} + || echo "Nenhum arquivo JNI encontrado."
 
       # 5. Limpar o Projeto (Boa Prática)
       # Executa `flutter clean` para garantir que não há artefactos de builds anteriores.
@@ -160,3 +172,15 @@ jobs:
           tag_name: ${{ github.ref_name }}
           # O corpo da release, lido do ficheiro RELEASE_NOTES.md.
           body: ${{ env.RELEASE_BODY }}
+
+      # 10. Limpeza Final (Segurança)
+      - name: Clean up sensitive files
+        if: ${{ always() }} # Garante que executa mesmo se o build falhar
+        run: |
+          # Remove a keystore da raiz (conforme criado no passo 6.1)
+          rm -f upload-keystore.jks
+          # Remove o ficheiro de propriedades da pasta android/
+          rm -f android/key.properties
+          # Remove ficheiros de ambiente, se existirem
+          rm -f .env
+          echo "Ficheiros sensíveis removidos com sucesso."
