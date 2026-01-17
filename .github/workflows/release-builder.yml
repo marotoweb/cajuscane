@@ -44,7 +44,7 @@ jobs:
         with:
           flutter-version: '3.38.6' # Substitua pela sua versão do Flutter, se for diferente.
           channel: 'stable'
-          cache: false # Ativa o cache para acelerar builds futuros.
+          cache: false # Desactiva o cache para acelerar builds futuros.
 
       # 4. Instalar Dependências do Projeto
       # Executa `flutter pub get` para baixar todos os pacotes listados no pubspec.yaml.
