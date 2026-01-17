@@ -13,4 +13,4 @@ Esta versão marca um passo fundamental para a autonomia e transparência do pro
 ### 📦 F-Droid & Reproducible Builds
 - **Assinatura Oficial**: APK assinado digitalmente pelo autor (Roberto Cc).
 - **Build Reprodutível**: Configuração de build ajustada para permitir a verificação binária independente (RB).
-- **Sem Ofuscação**: R8/ProGuard configurados para garantir que o binário corresponde exatamente ao código-fonte.
+- 
