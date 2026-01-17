@@ -105,7 +105,7 @@ jobs:
           yes | $SDKMANAGER --licenses || true
           $SDKMANAGER "build-tools;36.0.0-rc1" "platforms;android-36"
 
-      # 6.2.4 Inspecionar o Ambiente de Build (Opcional, mas útil para depuração)
+      # 6.2.4 Inspecionar o Ambiente de Build (Android)
       - name: Inspect Build Environment
         working-directory: android
         run: |
@@ -122,13 +122,13 @@ jobs:
           chmod +x gradlew
           ./gradlew properties | grep -E "compileSdk|buildToolsVersion|ndkVersion"
 
-      # 6.2.4 Compilar o APK de Release
+      # 6.2.5 Compilar o APK de Release
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
         # Removido o 'env: ANDROID_NDK_HOME' que usava o steps.setup-ndk (causava erro)
         # O Flutter já vai ler o ANDROID_NDK_HOME do GITHUB_ENV definido acima
 
-      # 6.2.5 Obter o SHA256 do APK Gerado
+      # 6.2.6 Obter o SHA256 do APK Gerado
       - name: Get APK SHA256
         run: |
           SHA_VALUE=$(sha256sum build/app/outputs/flutter-apk/app-release.apk | awk '{ print $1 }')
