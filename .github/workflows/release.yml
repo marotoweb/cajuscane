@@ -147,9 +147,6 @@ jobs:
       - name: Install Deps
         run: flutter pub get
 
-      #- name: Remove build id
-      #  run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
-
       - name: Configure Keystore for Android
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/upload-keystore.jks
@@ -233,16 +230,13 @@ jobs:
       - name: Install Deps
         run: flutter pub get
 
-      # - name: Remove build id
-      #   run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
-
       - name: Configure Keystore for Android
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/upload-keystore.jks
           echo "storeFile=upload-keystore.jks" >> key.properties
-          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >> key.properties
-          echo "storePassword=$KEYSTORE_STORE_PASSWORD" >> key.properties
-          echo "keyPassword=$KEYSTORE_KEY_PASSWORD" >> key.properties
+          echo "keyAlias=$ANDROID_KEY_ALIAS" >> key.properties
+          echo "storePassword=$ANDROID_STORE_PASSWORD" >> key.properties
+          echo "keyPassword=$ANDROID_KEY_PASSWORD" >> key.properties
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
