@@ -37,9 +37,15 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-
+    
+    // Create a variable called keystorePropertiesFile, and initialize it to your
+    // keystore.properties file, in the rootProject folder.
     val keystorePropertiesFile = rootProject.file("key.properties")
+
+    // Initialize a new Properties() object called keystoreProperties.
     val keystoreProperties = Properties()
+    
+    // Load your keystore.properties file into the keystoreProperties object.
     val hasKeyProperties = keystorePropertiesFile.exists()
     if (hasKeyProperties) {
         keystoreProperties.load(FileInputStream(keystorePropertiesFile))
@@ -66,9 +72,9 @@ android {
                 signingConfigs.getByName("debug")
             }
             
-            // Desativa a ofuscação e a remoção de código não usado
-            isMinifyEnabled = false
-            isShrinkResources = false
+            // Ofuscação e a remoção de código não usado
+            isMinifyEnabled = true
+            isShrinkResources = true
             
             // Mantém as definições padrão de ficheiros de regras, 
             // mas como o minify está false, elas não farão nada.
@@ -79,8 +85,18 @@ android {
         }
     }
 
+    packagingOptions {
+        jniLibs {
+            // Enabling flag to compress JNI Libs to reduce APK size Ref: https://developer.android.com/topic/performance/reduce-apk-size?hl=zh-cn#extract-false
+            useLegacyPackaging = true
+        }
+    }
+
+    // Required by F-Droid
     dependenciesInfo {
+        // Disables dependency metadata when building APKs.
         includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
         includeInBundle = false
     }
 }
@@ -88,3 +104,5 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {}
