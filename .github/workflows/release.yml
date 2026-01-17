@@ -147,8 +147,8 @@ jobs:
       - name: Install Deps
         run: flutter pub get
 
-      - name: Remove build id
-        run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
+      #- name: Remove build id
+      #  run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${{ steps.flutter-action.outputs.PUB-CACHE-PATH }}/hosted/pub.dev/jni-*/src/CMakeLists.txt
 
       - name: Configure Keystore for Android
         run: |
