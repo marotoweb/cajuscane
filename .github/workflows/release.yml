@@ -80,10 +80,19 @@ jobs:
           ENV: ${{ github.event.inputs.env }}
           IS_LATEST: ${{ github.event.inputs.latest }}
 
+      # Ler o conteúdo de RELEASE_NOTES.md
+      - name: Read release body from file
+        run: |
+          # Gera um delimitador único para evitar conflitos com o conteúdo do MD
+          DELIMITER=$(dd if=/dev/urandom bs=15 count=1 2>/dev/null | base64)
+          echo "RELEASE_BODY<<$DELIMITER" >> $GITHUB_ENV
+          cat RELEASE_NOTES.md >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "$DELIMITER" >> $GITHUB_ENV
+
       - name: Create a release
         run: |
-          RELEASE_NOTES="Release created by Runner"
-          gh release create "$TAG_NAME" --draft --latest=false --prerelease=false --target "$SHA" --title "$TAG_NAME" --notes "$RELEASE_NOTES"
+          gh release create "$TAG_NAME" --draft --latest=false --prerelease=false --target "$SHA" --title "$TAG_NAME" --notes "$RELEASE_BODY"
         env:
           SHA: ${{ steps.sha_step.outputs.sha }}
           TAG_NAME: ${{ steps.version_step.outputs.tag_name }}
