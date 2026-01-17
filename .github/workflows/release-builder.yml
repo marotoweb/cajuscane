@@ -116,10 +116,6 @@ jobs:
           echo "=== Android SDK Tools ==="
           ls $ANDROID_HOME/build-tools/
           
-          echo "=== Checking Gradle Project Properties ==="
-          chmod +x gradlew
-          ./gradlew help --quiet && ./gradlew properties -q | grep -iE "android\.(compileSdk|buildToolsVersion|ndkVersion)"
-      
       # 6.2.5 Compilar o APK de Release
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
