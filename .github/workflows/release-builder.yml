@@ -92,7 +92,7 @@ jobs:
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0"
       
       - name: Aceitar licenças do SDK Android                                                                                                                       
-      run: |
+        run: |
           # Localiza o sdkmanager dentro do ANDROID_HOME
           SDKMANAGER=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
           
