@@ -9,6 +9,10 @@ on:
     tags:
       - 'v*.*.*' # Executa sempre que uma tag que começa com 'v' (ex: v1.0.0, v1.2.3) é enviada para o repositório.
 
+env:
+  flutter-channel: 'stable'
+  flutter-version: '3.38.6'
+
 # Trabalhos (Jobs): Define uma sequência de tarefas a serem executadas.
 jobs:
   build-android:
