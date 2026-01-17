@@ -92,11 +92,18 @@ jobs:
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;36.0.0"
       
       - name: Aceitar licenças do SDK Android                                                                                                                       
-        run: |
-          # Aceita todas as licenças pendentes
-          yes | sdkmanager --licenses || true
-          # Instala especificamente a versão que queres usar
-          sdkmanager "build-tools;36.0.0-rc1" "platforms;android-36"
+      run: |
+          # Localiza o sdkmanager dentro do ANDROID_HOME
+          SDKMANAGER=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
+          
+          # Se o 'latest' não existir, tenta o caminho antigo
+          if [ ! -f "$SDKMANAGER" ]; then
+            SDKMANAGER=$ANDROID_HOME/tools/bin/sdkmanager
+          fi
+          
+          echo "Usando: $SDKMANAGER"
+          yes | $SDKMANAGER --licenses || true
+          $SDKMANAGER "build-tools;36.0.0-rc1" "platforms;android-36"
 
       # 6.2.4 Compilar o APK de Release
       - name: Build APK
