@@ -115,12 +115,11 @@ jobs:
           flutter --version
           
           echo "=== Android SDK Tools ==="
-          # Verifica a versão do Build-Tools que o Gradle vai tentar usar
           ls $ANDROID_HOME/build-tools/
           
           echo "=== Checking Gradle Project Properties ==="
-          cd android
-          ./gradlew properties | grep -E "compileSdk|buildToolsVersion|ndkVersion"
+          # Usamos o operador && para garantir que o gradlew corre dentro da pasta android
+          cd android && ./gradlew properties | grep -E "compileSdk|buildToolsVersion|ndkVersion"
 
       # 6.2.4 Compilar o APK de Release
       - name: Build APK
