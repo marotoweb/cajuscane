@@ -107,6 +107,7 @@ jobs:
 
       # 6.2.4 Inspecionar o Ambiente de Build (Opcional, mas útil para depuração)
       - name: Inspect Build Environment
+        working-directory: android
         run: |
           echo "=== Java Version ==="
           java -version
@@ -118,7 +119,6 @@ jobs:
           ls $ANDROID_HOME/build-tools/
           
           echo "=== Checking Gradle Project Properties ==="
-          cd android
           chmod +x gradlew
           ./gradlew properties | grep -E "compileSdk|buildToolsVersion|ndkVersion"
 
