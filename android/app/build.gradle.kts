@@ -1,21 +1,29 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 import java.util.Properties
 import java.io.FileInputStream
 
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// keystore.properties file, in the rootProject folder.
+val keystorePropertiesFile = rootProject.file("key.properties")
+
+// Initialize a new Properties() object called keystoreProperties.
+val keystoreProperties = Properties()
+
+// Load your keystore.properties file into the keystoreProperties object.
+val hasKeyProperties  = keystorePropertiesFile.exists()
+if (hasKeyProperties) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.marotoweb.cajuscan_app"
-    // compileSdk = flutter.compileSdkVersion
-    // ndkVersion = flutter.ndkVersion
-    // Define sdk and ndk version for reprodutible build
-    compileSdk = 36
-    ndkVersion = "27.0.12077973"
-    buildToolsVersion = "36.0.0-rc1"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -27,34 +35,38 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.marotoweb.cajuscan_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
-        //targetSdk = flutter.targetSdkVersion
-        targetSdk = 36
+        targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-    
-    // Create a variable called keystorePropertiesFile, and initialize it to your
-    // keystore.properties file, in the rootProject folder.
-    val keystorePropertiesFile = rootProject.file("key.properties")
 
-    // Initialize a new Properties() object called keystoreProperties.
-    val keystoreProperties = Properties()
-    
-    // Load your keystore.properties file into the keystoreProperties object.
-    val hasKeyProperties = keystorePropertiesFile.exists()
-    if (hasKeyProperties) {
-        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+    flavorDimensions += "default"
+    productFlavors {
+        create("staging") {
+            dimension = "default"
+            applicationIdSuffix = ".dev"
+        }
+
+        create("production") {
+            dimension = "default"
+        }
     }
 
     signingConfigs {
-        // Configuração de assinatura dinâmica
         create("release") {
-            if (hasKeyProperties) {
+            val envPath = System.getenv("ANDROID_KEYSTORE_PATH")
+            if (!envPath.isNullOrEmpty()) {
+                // Prioridade para Variáveis de Ambiente (GitHub Actions)
+                storeFile = file(envPath)
+                keyAlias = System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+                storePassword = System.getenv("ANDROID_STORE_PASSWORD")
+            } else if (hasKeyProperties) {
+                // Fallback para ficheiro local
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
                 storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
@@ -65,23 +77,18 @@ android {
 
     buildTypes {
         getByName("release") {
-            // Só tenta assinar se as propriedades existirem, caso contrário usa debug
-            signingConfig = if (hasKeyProperties) {
-                signingConfigs.getByName("release")
-            } else {
-                signingConfigs.getByName("debug")
-            }
-            
+            signingConfig = signingConfigs.getByName("release")
             // Ofuscação e a remoção de código não usado
             isMinifyEnabled = true
             isShrinkResources = true
             
-            // Mantém as definições padrão de ficheiros de regras, 
-            // mas como o minify está false, elas não farão nada.
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
+                getDefaultProguardFile("proguard-android.txt"),
                 "proguard-rules.pro"
             )
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -105,4 +112,4 @@ flutter {
     source = "../.."
 }
 
-dependencies {}
+dependencies {} 	
