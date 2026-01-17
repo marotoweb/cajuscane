@@ -44,7 +44,7 @@ jobs:
         with:
           flutter-version: '3.38.6' # Substitua pela sua versão do Flutter, se for diferente.
           channel: 'stable'
-          cache: true # Ativa o cache para acelerar builds futuros.
+          cache: false # Ativa o cache para acelerar builds futuros.
 
       # 4. Instalar Dependências do Projeto
       # Executa `flutter pub get` para baixar todos os pacotes listados no pubspec.yaml.
@@ -105,12 +105,34 @@ jobs:
           yes | $SDKMANAGER --licenses || true
           $SDKMANAGER "build-tools;36.0.0-rc1" "platforms;android-36"
 
+      # 6.2.4 Inspecionar o Ambiente de Build (Opcional, mas útil para depuração)
+      - name: Inspect Build Environment
+        run: |
+          echo "=== Java Version ==="
+          java -version
+          
+          echo "=== Flutter Version ==="
+          flutter --version
+          
+          echo "=== Android SDK Tools ==="
+          # Verifica a versão do Build-Tools que o Gradle vai tentar usar
+          ls $ANDROID_HOME/build-tools/
+          
+          echo "=== Checking Gradle Project Properties ==="
+          cd android
+          ./gradlew properties | grep -E "compileSdk|buildToolsVersion|ndkVersion"
+
       # 6.2.4 Compilar o APK de Release
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
         # Removido o 'env: ANDROID_NDK_HOME' que usava o steps.setup-ndk (causava erro)
         # O Flutter já vai ler o ANDROID_NDK_HOME do GITHUB_ENV definido acima
 
+      # 6.2.5 Obter o SHA256 do APK Gerado
+      - name: Get APK SHA256
+        run: |
+          SHA_VALUE=$(sha256sum build/app/outputs/flutter-apk/app-release.apk | awk '{ print $1 }')
+          echo "O SHA256 do seu APK é: $SHA_VALUE"
 
       # 7. Renomear o APK (Opcional, mas recomendado)
       # Renomeia o `app-release.apk` para um nome mais descritivo, incluindo a versão da tag.
