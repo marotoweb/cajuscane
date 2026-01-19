@@ -166,10 +166,20 @@ jobs:
         # Removido o 'env: ANDROID_NDK_HOME' que usava o steps.setup-ndk (causava erro)
         # O Flutter já vai ler o ANDROID_NDK_HOME do GITHUB_ENV definido acima
 
-      # 6.2.6 Obter o SHA256 do APK Gerado
-      - name: Get APK SHA256
+      # 6.2.6 Localizar o APK dinamicamente
+      - name: Get APK path and SHA256
         run: |
-          SHA_VALUE=$(sha256sum build/app/outputs/flutter-apk/app-release.apk | awk '{ print $1 }')
+          # Procura o APK de release padrão
+          APK_PATH=$(find build/app/outputs -name "app-release.apk" | head -n 1)
+          
+          if [ -z "$APK_PATH" ]; then
+            echo "ERRO: APK não encontrado em build/app/outputs"
+            ls -R build/app/outputs
+            exit 1
+          fi
+          
+          echo "APK_ACTUAL_PATH=$APK_PATH" >> $GITHUB_ENV
+          SHA_VALUE=$(sha256sum "$APK_PATH" | awk '{ print $1 }')
           echo "O SHA256 do seu APK é: $SHA_VALUE"
 
       # 7. Renomear o APK (Opcional, mas recomendado)
