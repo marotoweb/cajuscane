@@ -59,6 +59,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
+      - name: List all CMakeLists.txt in .pub-cache (DEBUG)
+        run: |
+            find /home/runner/.pub-cache -name "CMakeLists.txt" -type f -print | sort
+      
       # 4.1 Remove build-id from flutter_zxing para que os binários sejam idênticos ao F-Droid
       - name: Remove build-id from flutter_zxing (Reproducible Build)
         run: |
@@ -77,7 +81,7 @@ jobs:
           if [ -z "$(find "$CACHE_PATH" -name "CMakeLists.txt" -path "*/flutter_zxing-*/android/src/main/cpp/CMakeLists.txt" -exec grep -l "add_link_options.*--build-id=none" {} \;)" ]; then
             echo "Nenhum arquivo do flutter_zxing modificado."
           else
-            echo "Patch aplicado com sucesso."
+            echo " Patch aplicado com sucesso."
           fi
     
       # 5. Limpar o Projeto (Boa Prática)
