@@ -62,6 +62,7 @@ jobs:
       # 4.1 Remove build-id de flutter_zxing para que os binários sejam idênticos ao F-Droid
       - name: Remove build-id from flutter_zxing (Reproducible Build)
         run: |
+          set -e
           CACHE_PATH="/home/runner/.pub-cache"
           echo "Aplicando patch em: $CACHE_PATH"
 
@@ -82,7 +83,6 @@ jobs:
 
           # Verifica se modificou algum arquivo
           MODIFIED_FILES=$(find "$CACHE_PATH" -name "flutter_zxing-*" -type d -maxdepth 1 -exec find {} -name "CMakeLists.txt" -type f -exec grep -l "add_link_options.*--build-id=none" {} \; \;)
-
           if [ -z "$MODIFIED_FILES" ]; then
             echo "Nenhum arquivo do flutter_zxing modificado."
           else
