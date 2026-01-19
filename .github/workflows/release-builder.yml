@@ -183,10 +183,9 @@ jobs:
           echo "O SHA256 do seu APK é: $SHA_VALUE"
 
       # 7. Renomear o APK (Opcional, mas recomendado)
-      # Renomeia o `app-release.apk` para um nome mais descritivo, incluindo a versão da tag.
-      # `${{ github.ref_name }}` é uma variável do GitHub que contém o nome da tag (ex: "v1.0.0").
       - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/app-release.apk CajuScan-${{ github.ref_name }}.apk
+        run: |
+          mv "$APK_ACTUAL_PATH" CajuScan-${{ github.ref_name }}.apk
 
       # 8. Ler notas para a Release
       # Esta etapa lê o conteúdo do ficheiro RELEASE_NOTES.md para usar como corpo da release.       
